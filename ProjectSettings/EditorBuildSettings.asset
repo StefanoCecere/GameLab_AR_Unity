@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/sample_interaction/Cube Interaction.unity
     guid: c2f95c704067a48849fba2990fd5497c
   - enabled: 1
-    path: Assets/_stefano/Placement/Placemenet Indicator.unity
+    path: Assets/Local/_stefano/Placement/Placemenet Indicator.unity
     guid: cf224e944e8fd466ba0c11ee093132f5
   - enabled: 1
     path: Assets/arfoundation-demos/UX/Scenes/UXManagerScene.unity
