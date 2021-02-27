@@ -30,6 +30,10 @@ EditorBuildSettings:
     path: Assets/arfoundation-samples/Scenes/Plane Detection/PlaneClassification.unity
     guid: ea35aff45ed534fb9b030b82a5d980f4
   m_configObjects:
+    UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: baa8ee709f88c4b049a479e30e5bb5a2,
+      type: 2}
+    UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: 2d5fb8e61571b4e3897f221189089fd6,
+      type: 2}
     com.unity.xr.arcore.PlayerSettings: {fileID: 11400000, guid: 01396730f2d644bc1b80226013146ee7,
       type: 2}
     com.unity.xr.arkit.PlayerSettings: {fileID: 11400000, guid: 8acb482db78714a21bfbb0d53047bb3c,
