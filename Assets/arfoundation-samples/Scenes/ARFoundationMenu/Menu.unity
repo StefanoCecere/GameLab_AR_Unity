@@ -5405,7 +5405,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SimpleAR: {fileID: 1790425529}
   m_ARDraw: {fileID: 1742721530}
-  m_MyTest: {fileID: 0}
+  m_MyTest: {fileID: 595177820}
   m_ImageTracking: {fileID: 1311724826}
   m_Anchors: {fileID: 1905833466}
   m_ARWorldMap: {fileID: 1817576787}
@@ -9775,7 +9775,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00014179469}
+  m_AnchoredPosition: {x: 0, y: -0.000032426167}
   m_SizeDelta: {x: 0, y: 1200}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1416737520
@@ -13347,7 +13347,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1130901185}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9995509
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

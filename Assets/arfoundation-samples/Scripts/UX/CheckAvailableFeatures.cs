@@ -336,8 +336,6 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
             if (planeDescriptors.Count > 0 && rayCastDescriptors.Count > 0) {
                 m_SimpleAR.interactable = true;
-                m_ARDraw.interactable = true;
-                m_MyTest.interactable = true;
                 m_Scale.interactable = true;
                 m_Interaction.interactable = true;
                 m_CheckSupport.interactable = true;
@@ -479,6 +477,9 @@ namespace UnityEngine.XR.ARFoundation.Samples
 #if UNITY_IOS
             m_ThermalStateButton.interactable = true;
 #endif // UNITY_IOS
+
+            m_ARDraw.interactable = true;
+            m_MyTest.interactable = true;
         }
     }
 }
