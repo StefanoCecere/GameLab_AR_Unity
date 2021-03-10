@@ -403,5 +403,9 @@ namespace UnityEngine.XR.ARFoundation.Samples
             LoadScene("ARDraw");
         }
 
+        public void MyTestPressed()
+        {
+            LoadScene("my_test");
+        }
     }
 }

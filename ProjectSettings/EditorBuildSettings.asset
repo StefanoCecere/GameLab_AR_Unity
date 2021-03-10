@@ -129,8 +129,11 @@ EditorBuildSettings:
     path: Assets/arfoundation-samples/Scenes/SimpleAR/SimpleAR.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/ARDraw/Scenes/ARDraw.unity
+    path: Assets/demo_ARDraw/Scenes/ARDraw.unity
     guid: 166cdd821278c4fa5a99b736eb913126
+  - enabled: 1
+    path: Assets/demo_test/my_test.unity
+    guid: e7e53e4f4093848368c3890e1a94e404
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: f8ce26fe3bc69499b9be4b2378e97a94, type: 2}
     UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: 98c79e8cc22674a89a95a3a90e2b70cb, type: 2}
