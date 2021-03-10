@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 namespace Lean.Common.Examples
 {
@@ -118,6 +115,8 @@ namespace Lean.Common.Examples
 #if UNITY_EDITOR
 namespace Lean.Common.Examples
 {
+	using UnityEditor;
+
 	[CanEditMultipleObjects]
 	[CustomEditor(typeof(LeanLinkTo))]
 	public class LeanLinkTo_Editor : LeanInspector<LeanLinkTo>

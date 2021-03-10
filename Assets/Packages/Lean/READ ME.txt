@@ -1,10 +1,10 @@
 Welcome to Lean!
 
-The documentation for all Lean assets is inside the root of each directory.
+Inside each asset folder is the GUIDE file, which contains the documentation.
 
 For example, for Lean Touch you can find it in: "Lean/Touch/GUIDE".
 
-To open it, simply select it in the editor and click the "Local Documentation" button!
+Simply select this file in the Project tab, and from the inspector tab click the "Local Documentation" button!
 
 You can also open the documentation by clicking the "Documentation" icon at the top right of any Lean component.
 

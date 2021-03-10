@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Lean.Common;
 
 namespace Lean.Touch
 {
@@ -16,7 +17,7 @@ namespace Lean.Touch
 		public Vector3 GetWorldPosition(float distance, Camera camera = null)
 		{
 			// Make sure the camera exists
-			camera = LeanTouch.GetCamera(camera);
+			camera = LeanHelper.GetCamera(camera);
 
 			if (camera != null)
 			{

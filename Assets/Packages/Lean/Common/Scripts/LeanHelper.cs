@@ -1,19 +1,22 @@
 ﻿using System.Collections;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+using EventSystem = UnityEngine.EventSystems.EventSystem;
 
 namespace Lean.Common
 {
 	/// <summary>This class contains useful methods used in almost all <b>LeanTouch</b> code.</summary>
 	public static class LeanHelper
 	{
-		public const string HelpUrlPrefix = "http://carloswilkes.github.io/Documentation/";
+		public const string HelpUrlPrefix = "https://carloswilkes.github.io/Documentation/LeanCommon#";
+
+		public const string PlusHelpUrlPrefix = "https://carloswilkes.github.io/Documentation/LeanCommonPlus#";
 
 		public const string ComponentPathPrefix = "Lean/";
+
 #if UNITY_EDITOR
 		/// <summary>This method creates an empty GameObject prefab at the current asset folder</summary>
 		public static GameObject CreateAsset(string name)
@@ -27,11 +30,11 @@ namespace Lean.Common
 			}
 
 			path = AssetDatabase.GenerateUniqueAssetPath(path + "/" + name + ".prefab");
-#if UNITY_2018_3_OR_NEWER
+	#if UNITY_2018_3_OR_NEWER
 			var prefab = PrefabUtility.SaveAsPrefabAsset(gameObject, path);
-#else
+	#else
 			var prefab = PrefabUtility.CreatePrefab(path, gameObject);
-#endif
+	#endif
 			Object.DestroyImmediate(gameObject);
 
 			Selection.activeObject = prefab;
@@ -39,14 +42,17 @@ namespace Lean.Common
 			return prefab;
 		}
 #endif
-		/// <summary>This method allows you to create a UI element with the specified component and specified parent, with behaviour consistent with Unity's built-in UI element creation.</summary>
+
+		/// <summary>This method allows you to create a UI element with the specified component and specified parent, with behavior consistent with Unity's built-in UI element creation.</summary>
 		public static T CreateElement<T>(Transform parent)
 			where T : Component
 		{
 			var gameObject = new GameObject(typeof(T).Name);
+
 #if UNITY_EDITOR
 			Undo.RegisterCreatedObjectUndo(gameObject, "Create " + typeof(T).Name);
 #endif
+
 			var component = gameObject.AddComponent<T>();
 
 			// Auto attach to canvas?
@@ -65,7 +71,11 @@ namespace Lean.Common
 					// Make event system?
 					if (EventSystem.current == null)
 					{
-						new GameObject("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
+#if ENABLE_INPUT_SYSTEM
+						new GameObject("EventSystem", typeof(EventSystem), typeof(UnityEngine.InputSystem.UI.InputSystemUIInputModule));
+#else
+						new GameObject("EventSystem", typeof(EventSystem), typeof(UnityEngine.EventSystems.StandaloneInputModule));
+#endif
 					}
 				}
 
@@ -80,19 +90,21 @@ namespace Lean.Common
 		}
 
 		/// <summary>This method gives you the time-independent 't' value for lerp when used for dampening. This returns 1 in edit mode, or if dampening is less than 0.</summary>
-		public static float DampenFactor(float dampening, float elapsed)
+		public static float GetDampenFactor(float damping, float elapsed)
 		{
-			if (dampening < 0.0f)
+			if (damping < 0.0f)
 			{
 				return 1.0f;
 			}
+
 #if UNITY_EDITOR
 			if (Application.isPlaying == false)
 			{
 				return 1.0f;
 			}
 #endif
-			return 1.0f - Mathf.Exp(-dampening * elapsed);
+
+			return 1.0f - Mathf.Exp(-damping * elapsed);
 		}
 
 		/// <summary>This method allows you to destroy the target object in game and in edit mode, and it returns null.</summary>
@@ -117,6 +129,26 @@ namespace Lean.Common
 
 			return null;
 		}
+
+		// If currentCamera is null, this will return the camera attached to gameObject, or return Camera.main
+		public static Camera GetCamera(Camera currentCamera, GameObject gameObject = null)
+		{
+			if (currentCamera == null)
+			{
+				if (gameObject != null)
+				{
+					currentCamera = gameObject.GetComponent<Camera>();
+				}
+
+				if (currentCamera == null)
+				{
+					currentCamera = Camera.main;
+				}
+			}
+
+			return currentCamera;
+		}
+
 #if UNITY_EDITOR
 		/// <summary>This method gives you the actual object behind a SerializedProperty given to you by a property drawer.</summary>
 		public static T GetObjectFromSerializedProperty<T>(object target, SerializedProperty property)
@@ -156,5 +188,27 @@ namespace Lean.Common
 			return (T)target;
 		}
 #endif
+
+		public static Vector2 Hermite(Vector2 a, Vector2 b, Vector2 c, Vector2 d, float t)
+		{
+			var mu2 = t * t;
+			var mu3 = mu2 * t;
+			var x   = HermiteInterpolate(a.x, b.x, c.x, d.x, t, mu2, mu3);
+			var y   = HermiteInterpolate(a.y, b.y, c.y, d.y, t, mu2, mu3);
+
+			return new Vector2(x, y);
+		}
+
+		private static float HermiteInterpolate(float y0, float y1, float y2,float y3, float mu, float mu2, float mu3)
+		{
+			var m0 = (y1 - y0) * 0.5f + (y2 - y1) * 0.5f;
+			var m1 = (y2 - y1) * 0.5f + (y3 - y2) * 0.5f;
+			var a0 =  2.0f * mu3 - 3.0f * mu2 + 1.0f;
+			var a1 =         mu3 - 2.0f * mu2 + mu;
+			var a2 =         mu3 -        mu2;
+			var a3 = -2.0f * mu3 + 3.0f * mu2;
+
+			return a0 * y1 + a1 * m0 + a2 * m1 + a3 * y2;
+		}
 	}
 }
