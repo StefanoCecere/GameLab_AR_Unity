@@ -91,38 +91,25 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
         void Start()
         {
-            if(ActiveMenu.currentMenu == MenuType.FaceTracking)
-            {
+            if (ActiveMenu.currentMenu == MenuType.FaceTracking) {
                 m_FaceTrackingMenu.SetActive(true);
                 m_AllMenu.SetActive(false);
-            }
-            else if(ActiveMenu.currentMenu == MenuType.ImageTracking)
-            {
+            } else if (ActiveMenu.currentMenu == MenuType.ImageTracking) {
                 m_ImageTrackingMenu.SetActive(true);
                 m_AllMenu.SetActive(false);
-            }
-            else if(ActiveMenu.currentMenu == MenuType.PlaneDetection)
-            {
+            } else if (ActiveMenu.currentMenu == MenuType.PlaneDetection) {
                 m_PlaneDetectionMenu.SetActive(true);
                 m_AllMenu.SetActive(false);
-            }
-            else if(ActiveMenu.currentMenu == MenuType.BodyTracking)
-            {
+            } else if (ActiveMenu.currentMenu == MenuType.BodyTracking) {
                 m_BodyTrackingMenu.SetActive(true);
                 m_AllMenu.SetActive(false);
-            }
-            else if(ActiveMenu.currentMenu == MenuType.Meshing)
-            {
+            } else if (ActiveMenu.currentMenu == MenuType.Meshing) {
                 m_MeshingMenu.SetActive(true);
                 m_AllMenu.SetActive(false);
-            }
-            else if(ActiveMenu.currentMenu == MenuType.Depth)
-            {
+            } else if (ActiveMenu.currentMenu == MenuType.Depth) {
                 m_DepthMenu.SetActive(true);
                 m_AllMenu.SetActive(false);
-            }
-            else if(ActiveMenu.currentMenu == MenuType.LightEstimation)
-            {
+            } else if (ActiveMenu.currentMenu == MenuType.LightEstimation) {
                 m_LightEstimationMenu.SetActive(true);
                 m_AllMenu.SetActive(false);
             }
@@ -410,5 +397,11 @@ namespace UnityEngine.XR.ARFoundation.Samples
             m_HorizontalScrollBar.value = 0;
             m_VerticalScrollBar.value = 1;
         }
+
+        public void ARDrawPressed()
+        {
+            LoadScene("ARDraw");
+        }
+
     }
 }
