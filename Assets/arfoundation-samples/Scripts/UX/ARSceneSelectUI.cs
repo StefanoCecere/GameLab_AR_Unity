@@ -407,5 +407,10 @@ namespace UnityEngine.XR.ARFoundation.Samples
         {
             LoadScene("my_test");
         }
+
+        public void ImageTrackingPlusButtonPressed()
+        {
+            LoadScene("ImageTrackingPlus");
+        }
     }
 }
