@@ -83,6 +83,8 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -91,12 +93,12 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
-    aniso: -1
-    mipBias: -100
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
-    wrapW: -1
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -114,9 +116,12 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 0
   platformSettings:
   - serializedVersion: 3
@@ -600,6 +605,27 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Master_Sheet_18: 3552601961100175393
+      Master_Sheet_3: -5315016070522769710
+      Master_Sheet_17: -8297655672227676935
+      Master_Sheet_2: -3302799343356977537
+      Master_Sheet_11: 147920945035551064
+      Master_Sheet_0: -6606002392818885110
+      Master_Sheet_16: 6269272701944401916
+      Master_Sheet_10: -6573475749219102317
+      Master_Sheet_5: -1018432427485199791
+      Master_Sheet_1: -6657495634282327228
+      Master_Sheet_4: 3160261135075057922
+      Master_Sheet_19: -1279608518268879567
+      Master_Sheet_6: -550770422346120505
+      Master_Sheet_15: 1576196266857639944
+      Master_Sheet_7: 524821014675829880
+      Master_Sheet_13: 6528500736828445429
+      Master_Sheet_8: -7437078297345859797
+      Master_Sheet_14: -7320584284713413338
+      Master_Sheet_9: 3392202102583600606
+      Master_Sheet_12: 817066176017442274
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 1

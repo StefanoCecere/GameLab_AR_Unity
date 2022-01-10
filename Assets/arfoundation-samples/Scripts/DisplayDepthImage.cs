@@ -16,9 +16,10 @@ namespace UnityEngine.XR.ARFoundation.Samples
         /// </summary>
         enum DisplayMode
         {
-            EnvironmentDepth = 0,
-            HumanDepth = 1,
-            HumanStencil = 2,
+            EnvironmentDepthRaw = 0,
+            EnvironmentDepthSmooth = 1,
+            HumanDepth = 2,
+            HumanStencil = 3,
         }
 
         /// <summary>
@@ -64,7 +65,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
         /// <summary>
         /// The mode indicating which texture to display.
         /// </summary>
-        DisplayMode m_DisplayMode = DisplayMode.EnvironmentDepth;
+        DisplayMode m_DisplayMode = DisplayMode.EnvironmentDepthRaw;
 
         /// <summary>
         /// The display rotation matrix for the shader.
@@ -209,41 +210,67 @@ namespace UnityEngine.XR.ARFoundation.Samples
             // If we are on a device that does supports neither human stencil, human depth, nor environment depth,
             // display a message about unsupported functionality and return.
             Debug.Assert(m_OcclusionManager != null, "no occlusion manager");
+
+            var descriptor = m_OcclusionManager.descriptor;
             switch (m_DisplayMode)
             {
                 case DisplayMode.HumanDepth:
                 case DisplayMode.HumanStencil:
-                    if ((m_OcclusionManager.descriptor?.supportsHumanSegmentationStencilImage == false)
-                        && (m_OcclusionManager.descriptor?.supportsHumanSegmentationDepthImage == false))
+                {
+                    if (descriptor != null &&
+                        (descriptor.humanSegmentationDepthImageSupported == Supported.Supported ||
+                        descriptor.humanSegmentationStencilImageSupported == Supported.Supported))
+                    {
+                        break;
+                    }
+
+                    if (descriptor != null &&
+                        (descriptor.humanSegmentationStencilImageSupported == Supported.Unknown ||
+                         descriptor.humanSegmentationDepthImageSupported == Supported.Unknown))
+                    {
+                        LogText("Determining human segmentation support...");
+                    }
+                    else
                     {
                         LogText("Human segmentation is not supported on this device.");
-
-                        m_RawImage.texture = null;
-                        if (!Mathf.Approximately(m_TextureAspectRatio, k_DefaultTextureAspectRadio))
-                        {
-                            m_TextureAspectRatio = k_DefaultTextureAspectRadio;
-                            UpdateRawImage();
-                        }
-
-                        return;
                     }
-                    break;
-                case DisplayMode.EnvironmentDepth :
+
+                    m_RawImage.texture = null;
+                    if (!Mathf.Approximately(m_TextureAspectRatio, k_DefaultTextureAspectRadio))
+                    {
+                        m_TextureAspectRatio = k_DefaultTextureAspectRadio;
+                        UpdateRawImage();
+                    }
+
+                    return;
+                }
+                case DisplayMode.EnvironmentDepthRaw:
+                case DisplayMode.EnvironmentDepthSmooth:
                 default:
-                    if (m_OcclusionManager.descriptor?.supportsEnvironmentDepthImage == false)
+                {
+                    if (descriptor == null || descriptor.environmentDepthImageSupported == Supported.Unsupported)
                     {
                         LogText("Environment depth is not supported on this device.");
-
-                        m_RawImage.texture = null;
-                        if (!Mathf.Approximately(m_TextureAspectRatio, k_DefaultTextureAspectRadio))
-                        {
-                            m_TextureAspectRatio = k_DefaultTextureAspectRadio;
-                            UpdateRawImage();
-                        }
-
-                        return;
                     }
-                    break;
+                    else if (descriptor.environmentDepthImageSupported == Supported.Unknown)
+                    {
+                        LogText("Determining environment depth support...");
+                    }
+                    else if (descriptor.environmentDepthImageSupported == Supported.Supported)
+                    {
+                        m_OcclusionManager.environmentDepthTemporalSmoothingRequested = m_DisplayMode == DisplayMode.EnvironmentDepthSmooth;
+                        break;
+                    }
+
+                    m_RawImage.texture = null;
+                    if (!Mathf.Approximately(m_TextureAspectRatio, k_DefaultTextureAspectRadio))
+                    {
+                        m_TextureAspectRatio = k_DefaultTextureAspectRadio;
+                        UpdateRawImage();
+                    }
+
+                    return;
+                }
             }
 
             // Get all of the occlusion textures.
@@ -269,7 +296,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 case DisplayMode.HumanDepth:
                     displayTexture = humanDepth;
                     break;
-                case DisplayMode.EnvironmentDepth:
+                case DisplayMode.EnvironmentDepthRaw:
+                case DisplayMode.EnvironmentDepthSmooth:
                 default:
                     displayTexture = envDepth;
                     break;
@@ -419,7 +447,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
                     material = m_DepthMaterial;
                     maxDistance = m_MaxHumanDistance;
                     break;
-                case DisplayMode.EnvironmentDepth:
+                case DisplayMode.EnvironmentDepthRaw:
+                case DisplayMode.EnvironmentDepthSmooth:
                 default:
                     material = m_DepthMaterial;
                     maxDistance = m_MaxEnvironmentDistance;

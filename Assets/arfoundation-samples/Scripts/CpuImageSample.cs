@@ -126,6 +126,39 @@ namespace UnityEngine.XR.ARFoundation.Samples
             set => m_ImageInfo = value;
         }
 
+        [SerializeField]
+        Button m_TransformationButton;
+
+        /// <summary>
+        /// The button that controls transformation selection.
+        /// </summary>
+        public Button transformationButton
+        {
+            get => m_TransformationButton;
+            set => m_TransformationButton = value;
+        }
+
+        XRCpuImage.Transformation m_Transformation = XRCpuImage.Transformation.MirrorY;
+
+        /// <summary>
+        /// Cycles the image transformation to the next case.
+        /// </summary>
+        public void CycleTransformation()
+        {
+            m_Transformation = m_Transformation switch
+            {
+                XRCpuImage.Transformation.None => XRCpuImage.Transformation.MirrorX,
+                XRCpuImage.Transformation.MirrorX => XRCpuImage.Transformation.MirrorY,
+                XRCpuImage.Transformation.MirrorY => XRCpuImage.Transformation.MirrorX | XRCpuImage.Transformation.MirrorY,
+                _ => XRCpuImage.Transformation.None
+            };
+
+            if (m_TransformationButton)
+            {
+                m_TransformationButton.GetComponentInChildren<Text>().text = m_Transformation.ToString();
+            }
+        }
+
         void OnEnable()
         {
             if (m_CameraManager != null)
@@ -173,7 +206,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
             // Convert the image to format, flipping the image across the Y axis.
             // We can also get a sub rectangle, but we'll get the full image here.
-            var conversionParams = new XRCpuImage.ConversionParams(image, format, XRCpuImage.Transformation.MirrorY);
+            var conversionParams = new XRCpuImage.ConversionParams(image, format, m_Transformation);
 
             // Texture2D allows us write directly to the raw texture data
             // This allows us to do the conversion in-place without making any copies.
@@ -207,7 +240,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             {
                 using (image)
                 {
-                    UpdateRawImage(m_RawHumanDepthImage, image);
+                    UpdateRawImage(m_RawHumanDepthImage, image, m_Transformation);
                 }
             }
             else
@@ -223,11 +256,11 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
             // Attempt to get the latest human stencil image. If this method succeeds,
             // it acquires a native resource that must be disposed (see below).
-            if (occlusionManager && occlusionManager.TryAcquireHumanStencilCpuImage(out XRCpuImage image))
+            if (occlusionManager && occlusionManager.TryAcquireHumanStencilCpuImage(out var image))
             {
                 using (image)
                 {
-                    UpdateRawImage(m_RawHumanStencilImage, image);
+                    UpdateRawImage(m_RawHumanStencilImage, image, m_Transformation);
                 }
             }
             else
@@ -243,11 +276,11 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
             // Attempt to get the latest environment depth image. If this method succeeds,
             // it acquires a native resource that must be disposed (see below).
-            if (occlusionManager && occlusionManager.TryAcquireEnvironmentDepthCpuImage(out XRCpuImage image))
+            if (occlusionManager && occlusionManager.TryAcquireEnvironmentDepthCpuImage(out var image))
             {
                 using (image)
                 {
-                    UpdateRawImage(m_RawEnvironmentDepthImage, image);
+                    UpdateRawImage(m_RawEnvironmentDepthImage, image, m_Transformation);
                 }
             }
             else
@@ -263,11 +296,11 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
             // Attempt to get the latest environment depth image. If this method succeeds,
             // it acquires a native resource that must be disposed (see below).
-            if (occlusionManager && occlusionManager.TryAcquireEnvironmentDepthConfidenceCpuImage(out XRCpuImage image))
+            if (occlusionManager && occlusionManager.TryAcquireEnvironmentDepthConfidenceCpuImage(out var image))
             {
                 using (image)
                 {
-                    UpdateRawImage(m_RawEnvironmentDepthConfidenceImage, image);
+                    UpdateRawImage(m_RawEnvironmentDepthConfidenceImage, image, m_Transformation);
                 }
             }
             else
@@ -276,7 +309,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             }
         }
 
-        static void UpdateRawImage(RawImage rawImage, XRCpuImage cpuImage)
+        static void UpdateRawImage(RawImage rawImage, XRCpuImage cpuImage, XRCpuImage.Transformation transformation)
         {
             // Get the texture associated with the UI.RawImage that we wish to display on screen.
             var texture = rawImage.texture as Texture2D;
@@ -292,7 +325,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             }
 
             // For display, we need to mirror about the vertical access.
-            var conversionParams = new XRCpuImage.ConversionParams(cpuImage, cpuImage.format.AsTextureFormat(), XRCpuImage.Transformation.MirrorY);
+            var conversionParams = new XRCpuImage.ConversionParams(cpuImage, cpuImage.format.AsTextureFormat(), transformation);
 
             // Get the Texture2D's underlying pixel buffer.
             var rawTextureData = texture.GetRawTextureData<byte>();
