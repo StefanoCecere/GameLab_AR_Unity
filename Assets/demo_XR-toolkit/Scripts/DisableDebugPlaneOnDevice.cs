@@ -7,7 +7,7 @@ namespace samples.xr
     public class DisableDebugPlaneOnDevice : MonoBehaviour
     {
         public GameObject m_DebugPlane;
-
+        
         // Start is called before the first frame update
         void Start()
         {
@@ -18,7 +18,7 @@ namespace samples.xr
         // Update is called once per frame
         void Update()
         {
-
+            
         }
     }
 }

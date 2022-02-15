@@ -19,7 +19,8 @@ namespace samples.xr
         public int targetFrameRate
         {
             get { return m_TargetFrameRate; }
-            set {
+            set
+            {
                 m_TargetFrameRate = value;
                 SetFrameRate();
             }
