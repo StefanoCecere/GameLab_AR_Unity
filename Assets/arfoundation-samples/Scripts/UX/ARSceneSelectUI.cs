@@ -421,5 +421,11 @@ namespace UnityEngine.XR.ARFoundation.Samples
         {
             LoadScene("MainScene_rotatingboard");
         }
+
+        public void LoadDemoARDraw()
+        {
+            LoadScene("ARDraw");
+        }
+
     }
 }
