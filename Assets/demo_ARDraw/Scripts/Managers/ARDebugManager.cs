@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 
 public class ARDebugManager : Singleton<ARDebugManager>
-{   
+{
     [SerializeField]
     private TextMeshProUGUI debugAreaText = null;
 
@@ -15,7 +15,7 @@ public class ARDebugManager : Singleton<ARDebugManager>
     [SerializeField]
     private int maxLines = 8;
 
-    void OnEnable() 
+    void OnEnable()
     {
         debugAreaText.enabled = enableDebug;
         enabled = enableDebug;
@@ -41,7 +41,7 @@ public class ARDebugManager : Singleton<ARDebugManager>
 
     private void ClearLines()
     {
-        if(debugAreaText.text.Split('\n').Count() >= maxLines)
+        if (debugAreaText.text.Split('\n').Count() >= maxLines)
         {
             debugAreaText.text = string.Empty;
         }

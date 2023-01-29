@@ -11,7 +11,7 @@ namespace SeaberyTest.UI
         #region INSPECTOR VARIABLES
 
         [Header("Initial UI")]
-        
+
         [SerializeField]
         [Tooltip("Parent game object that includes the Initial UI section")]
         private GameObject _initialUI;
@@ -47,7 +47,7 @@ namespace SeaberyTest.UI
         [SerializeField]
         [Tooltip("Try Again button (Game Over section)")]
         private Button _gameOverTryAgainButton;
-        
+
         [Header("Player Win UI")]
 
         [SerializeField]
@@ -67,7 +67,7 @@ namespace SeaberyTest.UI
         [SerializeField]
         [Tooltip("Confirm Restar Game button")]
         private Button _confirmButton;
-        
+
         [SerializeField]
         [Tooltip("Cancel Restar Game button")]
         private Button _cancelButton;
@@ -75,7 +75,7 @@ namespace SeaberyTest.UI
         #endregion
 
         #region PRIVATE VARIABLES
-        
+
         private TimeSpan _currentTime;
 
         #endregion
@@ -277,7 +277,7 @@ namespace SeaberyTest.UI
             _coinsText.text = string.Format("{0}/{1}",
                 currentCoins,
                 totalCoins);
-        } 
+        }
 
         #endregion
     }

@@ -7,9 +7,9 @@ namespace SeaberyTest.TouchControls
 	/// The scale action will be triggered pinching the screen with two fingers.
     /// </summary>
     public class TouchControlScale : MonoBehaviour
-	{
+    {
         #region INSPECTOR VARIABLES
-        
+
         [SerializeField]
         [Tooltip("Multiplier that will be applied to the scalation. It will determine the sensitivity of the pinch in/out")]
         private float _scaleIndex = 0.05f;
@@ -17,7 +17,7 @@ namespace SeaberyTest.TouchControls
         [SerializeField]
         [Tooltip("Min scale allowed for the ARSessionOrigin's transform. The smaller this value is, the more zoom in will be available")]
         private float _minScaleAllowed = 10f;
-        
+
         [SerializeField]
         [Tooltip("Max scale allowed for the ARSessionOrigin's transform. The bigger this value is, the more zoom out will be available")]
         private float _maxScaleAllowed = 80f;
@@ -38,7 +38,7 @@ namespace SeaberyTest.TouchControls
         #endregion
 
         #region UNITY EVENTS
-        
+
         private void Update()
         {
             ScaleARScene();
@@ -50,8 +50,7 @@ namespace SeaberyTest.TouchControls
 
         private void ScaleARScene()
         {
-            if (Input.touchCount == 2)
-            {
+            if (Input.touchCount == 2) {
                 // Gets the information of the two touches
                 _touch0 = Input.GetTouch(0);
                 _touch1 = Input.GetTouch(1);
@@ -76,7 +75,7 @@ namespace SeaberyTest.TouchControls
                 // Applies the scale to the ARSessionOrigin transform
                 transform.localScale = Vector3.one * _newScale;
             }
-        } 
+        }
 
         #endregion
     }

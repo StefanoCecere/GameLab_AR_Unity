@@ -3,207 +3,199 @@ using UnityEngine;
 
 namespace SeaberyTest.GameManagement
 {
-	/// <summary>
-	/// Class in charge of managing the main logic of the game (Singleton class).
-	/// </summary>
-	[RequireComponent(typeof(AudioSource))]
-	public class GameController : MonoSingleton<GameController>
-	{
-		#region INSPECTOR VARIABLES
+    /// <summary>
+    /// Class in charge of managing the main logic of the game (Singleton class).
+    /// </summary>
+    [RequireComponent(typeof(AudioSource))]
+    public class GameController : MonoSingleton<GameController>
+    {
+        #region INSPECTOR VARIABLES
 
-		[Tooltip("Total time for game ending")]
-		[SerializeField]
-		private float _totalTime = 60f;
+        [Tooltip("Total time for game ending")]
+        [SerializeField]
+        private float _totalTime = 60f;
 
-		[Tooltip("Number of coins needed for win")]
-		[SerializeField]
-		private int _totalCoinsToWin = 15; 
+        [Tooltip("Number of coins needed for win")]
+        [SerializeField]
+        private int _totalCoinsToWin = 15;
 
-		#endregion
+        #endregion
 
-		#region PRIVATE VARIABLES
+        #region PRIVATE VARIABLES
 
-		private AudioSource _musicAudioSource;
-		private float _timeLeft;
-		private int _wonCoins;
-		private bool _gameIsPaused;
+        private AudioSource _musicAudioSource;
+        private float _timeLeft;
+        private int _wonCoins;
+        private bool _gameIsPaused;
 
-		#endregion
+        #endregion
 
-		#region PUBLIC PROPERTIES
+        #region PUBLIC PROPERTIES
 
-		/// <summary>
-		/// Number of coins needed for win.
-		/// </summary>
-		public int TotalCoinsToWin { get => _totalCoinsToWin; }
+        /// <summary>
+        /// Number of coins needed for win.
+        /// </summary>
+        public int TotalCoinsToWin { get => _totalCoinsToWin; }
 
-		/// <summary>
-		/// Time left for game ending.
-		/// </summary>
-		public float TimeLeft { get => _timeLeft; set => _timeLeft = value; }
+        /// <summary>
+        /// Time left for game ending.
+        /// </summary>
+        public float TimeLeft { get => _timeLeft; set => _timeLeft = value; }
 
-		/// <summary>
-		/// Current coins picked up by the player.
-		/// </summary>
-		public int WonCoins { get => _wonCoins; }
+        /// <summary>
+        /// Current coins picked up by the player.
+        /// </summary>
+        public int WonCoins { get => _wonCoins; }
 
-		/// <summary>
-		/// Pause/unpause the main logic of the game.
-		/// </summary>
-		public bool GameIsPaused { get => _gameIsPaused; set => _gameIsPaused = value; }
+        /// <summary>
+        /// Pause/unpause the main logic of the game.
+        /// </summary>
+        public bool GameIsPaused { get => _gameIsPaused; set => _gameIsPaused = value; }
 
-		#endregion
+        #endregion
 
-		#region PUBLIC EVENTS
+        #region PUBLIC EVENTS
 
-		public delegate void GameInitialized();
-		public delegate void NewCoinTaked(int currentCoins);
-		public delegate void GameOver();
-		public delegate void Win();
+        public delegate void GameInitialized();
+        public delegate void NewCoinTaked(int currentCoins);
+        public delegate void GameOver();
+        public delegate void Win();
 
-		/// <summary>
-		/// Executed when the game is initialized for the first time or restarted.
-		/// </summary>
-		public static event GameInitialized OnGameInitialized;
+        /// <summary>
+        /// Executed when the game is initialized for the first time or restarted.
+        /// </summary>
+        public static event GameInitialized OnGameInitialized;
 
-		/// <summary>
-		/// Executed when the player pick up a coin.
-		/// </summary>
-		public static event NewCoinTaked OnNewCoinTaked;
+        /// <summary>
+        /// Executed when the player pick up a coin.
+        /// </summary>
+        public static event NewCoinTaked OnNewCoinTaked;
 
-		/// <summary>
-		/// Executed when the player lose.
-		/// </summary>
-		public static event GameOver OnGameOver;
+        /// <summary>
+        /// Executed when the player lose.
+        /// </summary>
+        public static event GameOver OnGameOver;
 
-		/// <summary>
-		/// Executed when the player win.
-		/// </summary>
-		public static event Win OnWin;
+        /// <summary>
+        /// Executed when the player win.
+        /// </summary>
+        public static event Win OnWin;
 
-		#endregion
+        #endregion
 
-		#region SINGLETON INITIALIZATION
-		
-		/// <summary>
-		/// Class initialization.
-		/// </summary>
-		protected override void Init()
-		{
-			base.Init();
-			_musicAudioSource = GetComponent<AudioSource>();
-		} 
+        #region SINGLETON INITIALIZATION
 
-		#endregion
+        /// <summary>
+        /// Class initialization.
+        /// </summary>
+        protected override void Init()
+        {
+            base.Init();
+            _musicAudioSource = GetComponent<AudioSource>();
+        }
 
-		#region UNITY EVENTS
+        #endregion
 
-		private void Start()
-		{
-			InitializeGame();
-		}
+        #region UNITY EVENTS
 
-		private void Update()
-		{
-			if (!_gameIsPaused)
-			{
-				UpdateTimeLeft();
-			}
-		}
+        private void Start()
+        {
+            InitializeGame();
+        }
 
-		#endregion
+        private void Update()
+        {
+            if (!_gameIsPaused) {
+                UpdateTimeLeft();
+            }
+        }
 
-		#region PRIVATE METHODS
+        #endregion
 
-		/// <summary>
-		/// Update the time left for the game ending.
-		/// </summary>
-		private void UpdateTimeLeft()
-		{
-			_timeLeft -= Time.deltaTime;
-			if (_timeLeft <= 0f)
-			{
-				_timeLeft = 0f;
-				PlayerLose();
-			}
-			else if (_wonCoins >= _totalCoinsToWin)
-			{
-				PlayerWin();
-			}
-		}
+        #region PRIVATE METHODS
 
-		/// <summary>
-		/// Set the game state as 'Game Over'.
-		/// It will notify about it through the 'OnGameOver' event to the rest of the classes that have subscribed.
-		/// </summary>
-		private void PlayerLose()
-		{
-			_gameIsPaused = true;
+        /// <summary>
+        /// Update the time left for the game ending.
+        /// </summary>
+        private void UpdateTimeLeft()
+        {
+            _timeLeft -= Time.deltaTime;
+            if (_timeLeft <= 0f) {
+                _timeLeft = 0f;
+                PlayerLose();
+            } else if (_wonCoins >= _totalCoinsToWin) {
+                PlayerWin();
+            }
+        }
 
-			if (OnGameOver != null)
-			{
-				OnGameOver();
-			}
-		}
+        /// <summary>
+        /// Set the game state as 'Game Over'.
+        /// It will notify about it through the 'OnGameOver' event to the rest of the classes that have subscribed.
+        /// </summary>
+        private void PlayerLose()
+        {
+            _gameIsPaused = true;
 
-		/// <summary>
-		/// Set the game state as 'Player Win'.
-		/// It will notify about it through the 'OnWin' event to the rest of the classes that have subscribed.
-		/// </summary>
-		private void PlayerWin()
-		{
-			_gameIsPaused = true;
+            if (OnGameOver != null) {
+                OnGameOver();
+            }
+        }
 
-			if (OnWin != null)
-			{
-				OnWin();
-			}
-		}
+        /// <summary>
+        /// Set the game state as 'Player Win'.
+        /// It will notify about it through the 'OnWin' event to the rest of the classes that have subscribed.
+        /// </summary>
+        private void PlayerWin()
+        {
+            _gameIsPaused = true;
 
-		#endregion
+            if (OnWin != null) {
+                OnWin();
+            }
+        }
 
-		#region PUBLIC METHODS
+        #endregion
 
-		/// <summary>
-		/// Initialize/restart the main logic of the game.
-		/// It will notify about it through the 'OnGameInitialized' event to the rest of the classes that have subscribed.
-		/// </summary>
-		public void InitializeGame()
-		{
-			_timeLeft = _totalTime;
-			_wonCoins = 0;
-			_gameIsPaused = true;
-			_musicAudioSource.Stop();
+        #region PUBLIC METHODS
 
-			if (OnGameInitialized != null)
-			{
-				OnGameInitialized();
-			}
-		}
+        /// <summary>
+        /// Initialize/restart the main logic of the game.
+        /// It will notify about it through the 'OnGameInitialized' event to the rest of the classes that have subscribed.
+        /// </summary>
+        public void InitializeGame()
+        {
+            _timeLeft = _totalTime;
+            _wonCoins = 0;
+            _gameIsPaused = true;
+            _musicAudioSource.Stop();
 
-		/// <summary>
-		/// Play the background music and unpause the game just when the world has been instantiated in the AR scene.
-		/// </summary>
-		public void StartGameplay()
-		{
-			_musicAudioSource.Play();
-			_gameIsPaused = false;
-		}
+            if (OnGameInitialized != null) {
+                OnGameInitialized();
+            }
+        }
 
-		/// <summary>
-		/// Increment the player coins counter.
-		/// It will notify about it through the 'OnNewCoinTaked' event to the rest of the classes that have subscribed.
-		/// </summary>
-		public void TakeCoin()
-		{
-			_wonCoins++;
+        /// <summary>
+        /// Play the background music and unpause the game just when the world has been instantiated in the AR scene.
+        /// </summary>
+        public void StartGameplay()
+        {
+            _musicAudioSource.Play();
+            _gameIsPaused = false;
+        }
 
-			if (OnNewCoinTaked != null)
-			{
-				OnNewCoinTaked(_wonCoins);
-			}
-		}
+        /// <summary>
+        /// Increment the player coins counter.
+        /// It will notify about it through the 'OnNewCoinTaked' event to the rest of the classes that have subscribed.
+        /// </summary>
+        public void TakeCoin()
+        {
+            _wonCoins++;
 
-		#endregion
-	}
+            if (OnNewCoinTaked != null) {
+                OnNewCoinTaked(_wonCoins);
+            }
+        }
+
+        #endregion
+    }
 }

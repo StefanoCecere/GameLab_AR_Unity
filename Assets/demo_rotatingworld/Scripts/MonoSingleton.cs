@@ -2,57 +2,56 @@
 
 namespace SeaberyTest.Common
 {
-	/// <summary>
-	/// Base class that convert in a Singleton instance any kind of class indicated on the T parameter.
-	/// </summary>
-	/// <typeparam name="T">Class type that will be converted on a Singleton</typeparam>
-	public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
-	{
-		#region PRIVATE VARIABLES
-		
-		private static T _instance; 
+    /// <summary>
+    /// Base class that convert in a Singleton instance any kind of class indicated on the T parameter.
+    /// </summary>
+    /// <typeparam name="T">Class type that will be converted on a Singleton</typeparam>
+    public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
+    {
+        #region PRIVATE VARIABLES
 
-		#endregion
+        private static T _instance;
 
-		#region PUBLIC PROPERTIES
+        #endregion
 
-		/// <summary>
-		/// Single instance of the class (static property).
-		/// </summary>
-		public static T Instance
-		{
-			get
-			{
-				if (_instance == null)
-					Debug.LogError(typeof(T).ToString() + " is NULL!");
+        #region PUBLIC PROPERTIES
 
-				return _instance;
-			}
-		}
+        /// <summary>
+        /// Single instance of the class (static property).
+        /// </summary>
+        public static T Instance
+        {
+            get {
+                if (_instance == null)
+                    Debug.LogError(typeof(T).ToString() + " is NULL!");
 
-		#endregion
+                return _instance;
+            }
+        }
 
-		#region UNITY EVENTS
+        #endregion
 
-		private void Awake()
-		{
-			_instance = (T)this;
+        #region UNITY EVENTS
 
-			Init();
-		}
+        private void Awake()
+        {
+            _instance = (T)this;
 
-		#endregion
+            Init();
+        }
 
-		#region PRIVATE METHODS
+        #endregion
 
-		/// <summary>
-		/// Method used for initialize data (optional to override).
-		/// </summary>
-		protected virtual void Init()
-		{
+        #region PRIVATE METHODS
 
-		} 
+        /// <summary>
+        /// Method used for initialize data (optional to override).
+        /// </summary>
+        protected virtual void Init()
+        {
 
-		#endregion
-	}
+        }
+
+        #endregion
+    }
 }

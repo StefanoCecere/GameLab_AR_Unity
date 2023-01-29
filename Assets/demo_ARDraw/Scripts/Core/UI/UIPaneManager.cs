@@ -88,7 +88,7 @@ namespace DilmerGames.Managers
         }
 
         #region Static Methods
-        
+
         public static bool IsOpen(string id)
         {
             return Instance.IsPanelOpen(id);
