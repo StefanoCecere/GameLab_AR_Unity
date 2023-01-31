@@ -1,35 +1,38 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "LineSettings", menuName = "Create Line Settings", order = 0)]
-public class LineSettings : ScriptableObject 
+namespace demo.ardraw
 {
-    public string lineTagName = "Line";
-    
-    public Color startColor = Color.white;
+    [CreateAssetMenu(fileName = "LineSettings", menuName = "Create Line Settings", order = 0)]
+    public class LineSettings : ScriptableObject
+    {
+        public string lineTagName = "Line";
 
-    public Color endColor = Color.white;
+        public Color startColor = Color.white;
 
-    public float startWidth = 0.01f;
+        public Color endColor = Color.white;
 
-    public float endWidth = 0.01f;
+        public float startWidth = 0.01f;
 
-    public float distanceFromCamera = 0.3f;
+        public float endWidth = 0.01f;
 
-    public Material defaultMaterial;
+        public float distanceFromCamera = 0.3f;
 
-    public int cornerVertices = 5;
+        public Material defaultMaterial;
 
-    public int endCapVertices = 5;
+        public int cornerVertices = 5;
 
-    [Range(0, 1.0f)]
-    public float minDistanceBeforeNewPoint = 0.001f;
+        public int endCapVertices = 5;
 
-    [Header("Tolerance Options")]
-    public bool allowSimplification = false;
+        [Range(0, 1.0f)]
+        public float minDistanceBeforeNewPoint = 0.001f;
 
-    public float tolerance = 0.001f;
-    
-    public float applySimplifyAfterPoints = 20.0f;
+        [Header("Tolerance Options")]
+        public bool allowSimplification = false;
 
-    public bool allowMultiTouch = true;
+        public float tolerance = 0.001f;
+
+        public float applySimplifyAfterPoints = 20.0f;
+
+        public bool allowMultiTouch = true;
+    }
 }

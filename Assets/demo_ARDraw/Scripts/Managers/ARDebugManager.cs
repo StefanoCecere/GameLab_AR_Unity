@@ -4,46 +4,48 @@ using DilmerGames.Core.Singletons;
 using TMPro;
 using UnityEngine;
 
-public class ARDebugManager : Singleton<ARDebugManager>
+namespace demo.ardraw
 {
-    [SerializeField]
-    private TextMeshProUGUI debugAreaText = null;
-
-    [SerializeField]
-    private bool enableDebug = false;
-
-    [SerializeField]
-    private int maxLines = 8;
-
-    void OnEnable()
+    public class ARDebugManager : Singleton<ARDebugManager>
     {
-        debugAreaText.enabled = enableDebug;
-        enabled = enableDebug;
-    }
+        [SerializeField]
+        private TextMeshProUGUI debugAreaText = null;
 
-    public void LogInfo(string message)
-    {
-        ClearLines();
-        debugAreaText.text += $"{DateTime.Now.ToString("yyyy-dd-M HH:mm:ss")}: <color=\"white\">{message}</color>\n";
-    }
+        [SerializeField]
+        private bool enableDebug = false;
 
-    public void LogError(string message)
-    {
-        ClearLines();
-        debugAreaText.text += $"{DateTime.Now.ToString("yyyy-dd-M HH:mm:ss")}: <color=\"red\">{message}</color>\n";
-    }
+        [SerializeField]
+        private int maxLines = 8;
 
-    public void LogWarning(string message)
-    {
-        ClearLines();
-        debugAreaText.text += $"{DateTime.Now.ToString("yyyy-dd-M HH:mm:ss")}: <color=\"yellow\">{message}</color>\n";
-    }
-
-    private void ClearLines()
-    {
-        if (debugAreaText.text.Split('\n').Count() >= maxLines)
+        void OnEnable()
         {
-            debugAreaText.text = string.Empty;
+            debugAreaText.enabled = enableDebug;
+            enabled = enableDebug;
+        }
+
+        public void LogInfo(string message)
+        {
+            ClearLines();
+            debugAreaText.text += $"{DateTime.Now.ToString("yyyy-dd-M HH:mm:ss")}: <color=\"white\">{message}</color>\n";
+        }
+
+        public void LogError(string message)
+        {
+            ClearLines();
+            debugAreaText.text += $"{DateTime.Now.ToString("yyyy-dd-M HH:mm:ss")}: <color=\"red\">{message}</color>\n";
+        }
+
+        public void LogWarning(string message)
+        {
+            ClearLines();
+            debugAreaText.text += $"{DateTime.Now.ToString("yyyy-dd-M HH:mm:ss")}: <color=\"yellow\">{message}</color>\n";
+        }
+
+        private void ClearLines()
+        {
+            if (debugAreaText.text.Split('\n').Count() >= maxLines) {
+                debugAreaText.text = string.Empty;
+            }
         }
     }
 }
