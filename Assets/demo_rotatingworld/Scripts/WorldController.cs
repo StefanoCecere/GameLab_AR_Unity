@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using Unity.XR.CoreUtils;
 using UnityEngine.XR.ARFoundation.Samples;
+using UnityEngine.XR.ARSubsystems;
 
 namespace SeaberyTest.World
 {
