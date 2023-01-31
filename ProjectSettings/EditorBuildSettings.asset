@@ -133,7 +133,7 @@ EditorBuildSettings:
     guid: bb7230c3dc3234d5bae31b1c0e9b6243
   - enabled: 1
     path: Assets/demo_ARDraw/Scenes/ARDraw.unity
-    guid: 166cdd821278c4fa5a99b736eb913126
+    guid: d7fc711e9989f4e438cfe048cd7d263a
   - enabled: 1
     path: Assets/demo_test/my_test.unity
     guid: e7e53e4f4093848368c3890e1a94e404
