@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Line
+  - Coin
+  - PlayerEyes
+  - Ball
+  - Hoop
   layers:
   - Default
   - TransparentFX
@@ -37,7 +41,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - XR Simulation
   m_SortingLayers:
   - name: Default
     uniqueID: 0
